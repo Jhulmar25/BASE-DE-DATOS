@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formato de Ocurrencias - Serenazgo</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .grupo-dinamico {
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>FORMATO DE OCURRENCIAS DEL SERVICIO DE SERENAZGO</h1>
+    </header>
+
+    <section id="login-section">
+      <h2>Iniciar Sesión</h2>
+      <label for="usuario">Usuario: <input type="text" id="usuario"></label>
+      <label for="contrasena">Contraseña: <input type="password" id="contrasena"></label>
+      <button onclick="validarAcceso()">Ingresar</button>
+      <p id="errorMsg" style="display:none; color:red;">Usuario o contraseña incorrectos.</p>
+    </section>
+
+    <form id="formularioOcurrencia" style="display:none;">
+  <section>
+    <h2>GENERALIDADES</h2>
+    <label>N° de Ocurrencia: <input type="text" name="numero_ocurrencia"></label>
+    <label>DNI (Sereno): <input type="text" name="dni_sereno"></label>
+    <label>Apellidos y Nombres: <input type="text" name="nombre_sereno"></label>
+    <label>UBIGEO:
+      <input type="text" placeholder="Dpto." name="ubigeo_dpto">
+      <input type="text" placeholder="Prov." name="ubigeo_prov">
+      <input type="text" placeholder="Dist." name="ubigeo_dist">
+    </label>
+    <label>Origen:
+      <select name="origen">
+        <option value="">Selecciona una opción</option>
+        <option value="camaras">Visualización Cámaras</option>
+        <option value="telefono">Requerimiento Teléf.</option>
+        <option value="patrullaje">Patrullaje</option>
+        <option value="operativos">Operativos</option>
+        <option value="redes">Redes sociales</option>
+        <option value="boton">Botón de pánico</option>
+        <option value="otros">Otros</option>
+      </select>
+    </label>
+    <label>Modalidad Patrullaje:
+      <select name="modalidad_patrullaje">
+        <option value="">Selecciona una opción</option>
+        <option value="integrado">Integrado</option>
+        <option value="municipal">Municipal</option>
+      </select>
+    </label>
+    <label>Información Efectivo PNP:</label>
+    <label>Ape: <input type="text" name="pnp_ape"></label>
+    <label>Nom: <input type="text" name="pnp_nom"></label>
+    <label>Grado: <input type="text" name="pnp_grado"></label>
+    <label>Comisaría: <input type="text" name="comisaria"></label>
+    <label>Tipo de Patrullaje:
+      <select name="tipo_patrullaje">
+        <option value="">Selecciona una opción</option>
+        <option value="motorizado">Motorizado</option>
+        <option value="pie">A pie</option>
+        <option value="bicicleta">Bicicleta</option>
+        <option value="otros">Otros</option>
+      </select>
+    </label>
+    <label>Placa Vehículo: <input type="text" name="vehiculo_placa">
+      Tipo:
+      <select name="vehiculo_tipo">
+        <option value="">Selecciona una opción</option>
+        <option value="auto">Auto</option>
+        <option value="camioneta">Camioneta Doble Cabina</option>
+        <option value="moto">Moto Lineal</option>
+        <option value="otros">Otros</option>
+      </select>
+    </label>
+    <label>Turno:
+      <select name="turno">
+        <option value="">Selecciona una opción</option>
+        <option value="manana">Mañana</option>
+        <option value="tarde">Tarde</option>
+        <option value="noche">Noche</option>
+      </select>
+    </label>
+    <label>Hora alerta: <input type="time" name="hora_alerta">
+      Hora llegada sereno: <input type="time" name="hora_llegada">
+      Hora repliegue sereno: <input type="time" name="hora_repliegue">
+    </label>
+    <label>Fecha: <input type="date" name="fecha">
+      Día de la semana: <input type="text" name="dia_semana">
+      Mes: <input type="text" name="mes">
+    </label>
+    <label>CÓD. OCU: <input type="text" name="cod_ocu"></label>
+  </section>
+
+  <section>
+    <h2>AUTORES / AGRESORES / CONDUCTORES</h2>
+    <label>Identidad:
+      <select name="identidad_autores">
+        <option value="">Selecciona una opción</option>
+        <option value="identificado">Identificado</option>
+        <option value="no_identificado">No Identificado</option>
+      </select>
+    </label>
+    <div id="autores-container"></div>
+    <button type="button" onclick="agregarAutor()">Agregar Autor</button>
+    <label>Total: <input type="number" name="autores_total">
+      Masc.: <input type="number" name="autores_masc">
+      Fem.: <input type="number" name="autores_fem">
+      May.: <input type="number" name="autores_may">
+      Men.: <input type="number" name="autores_men">
+    </label>
+  </section>
+
+  <section>
+    <h2>VÍCTIMAS / BENEFICIARIOS</h2>
+    <div id="victimas-container"></div>
+    <button type="button" onclick="agregarVictima()">Agregar Víctima</button>
+    <label>Total: <input type="number" name="victimas_total">
+      Masc.: <input type="number" name="victimas_masc">
+      Fem.: <input type="number" name="victimas_fem">
+      May.: <input type="number" name="victimas_may">
+      Men.: <input type="number" name="victimas_men">
+    </label>
+  </section>
+
+  <section>
+    <h2>DETALLES DE LA OCURRENCIA</h2>
+    <label>Relación víctima-victimario:
+      <select name="relacion">
+        <option value="">Selecciona una opción</option>
+        <option value="esposa">Esposa o ex esposa</option>
+        <option value="pareja">Pareja o ex pareja</option>
+        <option value="padre">Padre</option>
+        <option value="madre">Madre</option>
+        <option value="familiar">Familiar</option>
+        <option value="conocido">Conocido</option>
+        <option value="desconocido">Desconocido</option>
+      </select>
+    </label>
+    <label>Resultado:
+      <select name="resultado">
+        <option value="">Selecciona una opción</option>
+        <option value="consumado">Hecho consumado</option>
+        <option value="frustrado">Hecho frustrado</option>
+      </select>
+    </label>
+    <label>Consecuencia:
+      <select name="consecuencia">
+        <option value="">Selecciona una opción</option>
+        <option value="material">Materiales</option>
+        <option value="personal">Personales</option>
+        <option value="psicologico">Psicológico</option>
+        <option value="muerte">Muerte</option>
+        <option value="desorden">Desorden</option>
+        <option value="ocupacion">Ocupación indebida</option>
+        <option value="paz">Paz y orden</option>
+        <option value="disuasiva">Acciones disuasivas-preventivas</option>
+      </select>
+    </label>
+    <label>Lugar:
+      <select name="lugar">
+        <option value="">Selecciona una opción</option>
+        <option value="publica">Vía pública</option>
+        <option value="inmueble">Inmueble particular</option>
+        <option value="comercial">Centro comercial</option>
+        <option value="deposito">Depósito</option>
+        <option value="estatal">Dependencia estatal</option>
+        <option value="fabrica">Fábrica</option>
+        <option value="financiera">Entidad financiera</option>
+        <option value="otros">Otros</option>
+      </select>
+    </label>
+    <label>Medio utilizado:
+      <select name="medio">
+        <option value="">Selecciona una opción</option>
+        <option value="fuego">Arma de fuego</option>
+        <option value="blanca">Arma blanca</option>
+        <option value="agresion">Agresión</option>
+        <option value="amenaza">Amenaza</option>
+        <option value="fuerza">Fuerza</option>
+        <option value="engano">Engaño</option>
+        <option value="habilidad">Habilidad</option>
+        <option value="otros">Otros</option>
+      </select>
+    </label>
+  </section>
+
+  <section>
+    <h2>DIRECCIÓN Y GEORREFERENCIACIÓN</h2>
+    <label>Tipo de vía:
+      <select name="tipo_via">
+        <option value="">Selecciona una opción</option>
+        <option value="avenida">Avenida</option>
+        <option value="calle">Calle</option>
+        <option value="jiron">Jirón</option>
+        <option value="pasaje">Pasaje</option>
+        <option value="sin_dato">Sin dato</option>
+      </select>
+    </label>
+    <label>Dirección: <input type="text" name="direccion"></label>
+    <label>Referencia: <input type="text" name="referencia"></label>
+    <label>Manzana: <input type="text" name="manzana"> Lote: <input type="text" name="lote"></label>
+    <label>Tipo de zona:
+      <select name="tipo_zona">
+        <option value="">Selecciona una opción</option>
+        <option value="asoc">Asoc. Vivienda</option>
+        <option value="barrio">Barrio</option>
+        <option value="conj">Conj. Hab.</option>
+        <option value="coop">Coop. Viv.</option>
+        <option value="pj">P. Joven</option>
+        <option value="upis">UPIS</option>
+        <option value="urbanizacion">Urbanización</option>
+        <option value="sin_dato">Sin dato</option>
+      </select>
+    </label>
+    <label>Nombre de la zona: <input type="text" name="nombre_zona"></label>
+    <label>Sector de patrullaje: <input type="text" name="sector_patrullaje"></label>
+    <label>Latitud: <input type="text" name="latitud"> Longitud: <input type="text" name="longitud"></label>
+  </section>
+
+  <section>
+    <h2>DATOS IMPORTANTES</h2>
+    <label>Resumen (máx. 140 caracteres): <input type="text" name="resumen" maxlength="140"></label>
+  </section>
+
+  <button type="submit">Enviar Reporte</button>
+</form>
+  </div>
+
+  <script>
+    function validarAcceso() {
+      const usuario = document.getElementById('usuario').value;
+      const contrasena = document.getElementById('contrasena').value;
+      if (usuario === 'jhulmar' && contrasena === 'software') {
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('formularioOcurrencia').style.display = 'block';
+      } else {
+        document.getElementById('errorMsg').style.display = 'block';
+      }
+    }
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAsHBTNT1wWD_0XTAJxZgUWrxWhDvHhv60",
+      authDomain: "opertivo-d58a6.firebaseapp.com",
+      projectId: "opertivo-d58a6",
+      storageBucket: "opertivo-d58a6.firebasestorage.app",
+      messagingSenderId: "572228820490",
+      appId: "1:572228820490:web:5ae4107f521268d47549f3"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const form = document.getElementById("formularioOcurrencia");
+    if (form) {
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const data = Object.fromEntries(new FormData(form).entries());
+
+        try {
+          await addDoc(collection(db, "ocurrencias"), data);
+          alert("✅ Reporte enviado correctamente");
+          form.reset();
+          document.getElementById('autores-container')?.replaceChildren();
+          document.getElementById('victimas-container')?.replaceChildren();
+        } catch (error) {
+          console.error("Error al enviar reporte:", error);
+          alert("❌ Ocurrió un error al enviar el reporte");
+        }
+      });
+    }
+  </script>
+<script>
+  function agregarAutor() {
+    const container = document.getElementById('autores-container');
+    const div = document.createElement('div');
+    div.className = 'grupo-dinamico';
+    div.innerHTML = `
+      <label>Nombre: <input type="text" name="autor_nombre"></label>
+      <label>Edad: <input type="number" name="autor_edad"></label>
+      <label>Placa: <input type="text" name="autor_placa"></label>
+    `;
+    container.appendChild(div);
+  }
+
+  function agregarVictima() {
+    const container = document.getElementById('victimas-container');
+    const div = document.createElement('div');
+    div.className = 'grupo-dinamico';
+    div.innerHTML = `
+      <label>Descripción: <input type="text" name="victima_descripcion"></label>
+      <label>Edad: <input type="number" name="victima_edad"></label>
+    `;
+    container.appendChild(div);
+  }
+</script>
+</body>
+</html>
+
